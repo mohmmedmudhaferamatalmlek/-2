@@ -1,0 +1,96 @@
+public class ArrayList {
+
+
+    // تنفيذ بسيط لهيكل البيانات ArrayList
+    static class MyArrayList<T> {
+        private Object[] array; // مصفوفة داخلية لتخزين البيانات
+        private int size = 0; // عدد العناصر في القائمة
+        private static final int INITIAL_CAPACITY = 10; // السعة الابتدائية
+
+        // Constructor: إنشاء القائمة بسعة ابتدائية
+        public MyArrayList() {
+            array = new Object[INITIAL_CAPACITY];
+        }
+
+        // إضافة عنصر إلى القائمة
+        public void add(T element) {
+            ensureCapacity();
+            array[size++] = element;
+        }
+
+        // حذف عنصر عند فهرس معين
+        public void remove(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("الفهرس غير صحيح!");
+            }
+            for (int i = index; i < size - 1; i++) {
+                array[i] = array[i + 1]; // إزاحة العناصر للخلف
+            }
+            array[--size] = null; // حذف آخر عنصر
+        }
+
+        // استرجاع عنصر عند فهرس معين
+        @SuppressWarnings("unchecked")
+        public T get(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("الفهرس غير صحيح!");
+            }
+            return (T) array[index];
+        }
+
+        // استرجاع حجم القائمة
+        public int size() {
+            return size;
+        }
+
+        // التحقق من الحاجة إلى توسيع السعة
+        private void ensureCapacity() {
+            if (size == array.length) {
+                int newCapacity = array.length * 2; // مضاعفة الحجم
+                Object[] newArray = new Object[newCapacity];
+                System.arraycopy(array, 0, newArray, 0, size);
+                array = newArray;
+            }
+        }
+
+        // طباعة القائمة
+        public void printList() {
+            System.out.print("[");
+            for (int i = 0; i < size; i++) {
+                System.out.print(array[i]);
+                if (i < size - 1) System.out.print(", ");
+            }
+            System.out.println("]");
+        }
+    }
+
+    // تجربة القائمة
+    public class Main {
+        public static void main(String[] args) {
+            MyArrayList<Integer> list = new MyArrayList<>();
+            list.add(10);
+            list.add(20);
+            list.add(30);
+            list.printList(); // [10, 20, 30]
+
+            list.remove(1);
+            list.printList(); // [10, 30]
+
+            System.out.println("العنصر عند الفهرس 1: " + list.get(1)); // 30
+            System.out.println("حجم القائمة: " + list.size()); // 2
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
